@@ -22,11 +22,7 @@ open class ScenarioViewController: PlatformViewController {
             oldValue.willMove(toParent: nil)
             oldValue.view.removeFromSuperview()
             oldValue.removeFromParent()
-            #if os(iOS)
             oldValue.didMove(toParent: nil)
-            #elseif os(macOS)
-            oldValue.didMove(toParent: nil)
-            #endif
         }
     }
 

@@ -133,13 +133,7 @@ private final class PlatformViewHostingController: PlatformViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    #if os(iOS)
     override func loadView() {
         view = _view
     }
-    #elseif os(macOS)
-    override func loadView() {
-        self.view = _view
-    }
-    #endif
 }
