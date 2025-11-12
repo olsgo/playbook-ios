@@ -1,7 +1,11 @@
 import Playbook
 import SwiftUI
 
+#if os(iOS)
 @available(iOS 15.0, *)
+#elseif os(macOS)
+@available(macOS 12.0, *)
+#endif
 public struct PlaybookCatalog: View {
     private let title: String?
 

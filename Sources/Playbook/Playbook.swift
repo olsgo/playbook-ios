@@ -1,4 +1,8 @@
+#if os(iOS)
 import UIKit
+#elseif os(macOS)
+import AppKit
+#endif
 
 /// The central scenario manager.
 ///
