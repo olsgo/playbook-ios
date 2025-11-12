@@ -1,4 +1,8 @@
+#if os(iOS)
 import UIKit
+#elseif os(macOS)
+import AppKit
+#endif
 
 /// Represents part of the component state.
 public struct Scenario {
@@ -15,7 +19,7 @@ public struct Scenario {
     public var line: UInt
 
     /// A closure that make a new content with passed context.
-    public var content: (ScenarioContext) -> UIViewController
+    public var content: (ScenarioContext) -> PlatformViewController
 
     /// Creates a new scenario.
     ///
@@ -30,7 +34,7 @@ public struct Scenario {
         layout: ScenarioLayout,
         file: StaticString = #file,
         line: UInt = #line,
-        content: @escaping (ScenarioContext) -> UIViewController
+        content: @escaping (ScenarioContext) -> PlatformViewController
     ) {
         self.title = title
         self.layout = layout
@@ -52,7 +56,7 @@ public struct Scenario {
         layout: ScenarioLayout,
         file: StaticString = #file,
         line: UInt = #line,
-        content: @escaping (ScenarioContext) -> UIView
+        content: @escaping (ScenarioContext) -> PlatformView
     ) {
         self.init(
             title,
@@ -60,7 +64,7 @@ public struct Scenario {
             file: file,
             line: line,
             content: { context in
-                UIViewHostingController(view: content(context))
+                PlatformViewHostingController(view: content(context))
             }
         )
     }
@@ -78,7 +82,7 @@ public struct Scenario {
         layout: ScenarioLayout,
         file: StaticString = #file,
         line: UInt = #line,
-        content: @escaping () -> UIViewController
+        content: @escaping () -> PlatformViewController
     ) {
         self.init(
             title,
@@ -102,7 +106,7 @@ public struct Scenario {
         layout: ScenarioLayout,
         file: StaticString = #file,
         line: UInt = #line,
-        content: @escaping () -> UIView
+        content: @escaping () -> PlatformView
     ) {
         self.init(
             title,
@@ -110,16 +114,16 @@ public struct Scenario {
             file: file,
             line: line,
             content: { _ in
-                UIViewHostingController(view: content())
+                PlatformViewHostingController(view: content())
             }
         )
     }
 }
 
-private final class UIViewHostingController: UIViewController {
-    private let _view: UIView
+private final class PlatformViewHostingController: PlatformViewController {
+    private let _view: PlatformView
 
-    init(view: UIView) {
+    init(view: PlatformView) {
         self._view = view
         super.init(nibName: nil, bundle: nil)
     }

@@ -1,7 +1,10 @@
 import SwiftUI
-import UIKit
 
+#if os(iOS)
 @available(iOS 15.0, *)
+#elseif os(macOS)
+@available(macOS 12.0, *)
+#endif
 internal struct SearchBar: View {
     @Binding
     var text: String
@@ -16,7 +19,7 @@ internal struct SearchBar: View {
                 Image(symbol: .magnifyingglass)
                     .imageStyle(
                         font: .headline.weight(.regular),
-                        color: Color(.secondaryLabel)
+                        color: Color.secondary
                     )
                     .padding(.trailing, 4)
                     .onTapGesture {
@@ -26,7 +29,7 @@ internal struct SearchBar: View {
                 TextField(
                     text: $text,
                     prompt: Text("Search")
-                        .foregroundColor(Color(.secondaryLabel))
+                        .foregroundColor(Color.secondary)
                 ) {
                     EmptyView()
                 }
@@ -48,7 +51,11 @@ internal struct SearchBar: View {
             .padding(.horizontal, 16)
             .background {
                 Rectangle()
-                    .fill(Color(.tertiarySystemFill))
+                    #if os(iOS)
+                    .fill(Color(uiColor: .tertiarySystemFill))
+                    #elseif os(macOS)
+                    .fill(Color(nsColor: .tertiarySystemFill))
+                    #endif
                     .clipShape(.capsule)
             }
 
@@ -59,7 +66,7 @@ internal struct SearchBar: View {
                     isFocused = false
                 }
                 .buttonStyle(.borderless)
-                .foregroundColor(Color(.primaryBlue))
+                .foregroundColor(.blue)
                 .transition(
                     .move(edge: .trailing)
                         .combined(with: .opacity)

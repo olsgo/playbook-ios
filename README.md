@@ -42,8 +42,10 @@ With the `Playbook`, you don't have to struggle through preparing the data and s
 
 ### Playbook
 
-`Playbook` is a framework that provides the basic functionality for managing components. It supports both `SwiftUI` and `UIKit`.  
-Components are uniquely stored as scenarios. A `Scenario` has the way to layout component. Please check the API Doc for the variety of layouts.  
+`Playbook` is a framework that provides the basic functionality for managing components. It supports both `SwiftUI` and `UIKit` on iOS, and `SwiftUI` and `AppKit` on macOS.
+Components are uniquely stored as scenarios. A `Scenario` has the way to layout component. Please check the API Doc for the variety of layouts.
+
+#### iOS Example
 
 ```swift
 Playbook.default.addScenarios(of: "Home") {
@@ -60,6 +62,24 @@ Playbook.default.addScenarios(of: "Home") {
     Scenario("UIView red", layout: .fixed(length: 100)) {
         let view = UIView()
         view.backgroundColor = .red
+        return view
+    }
+}
+```
+
+#### macOS Example
+
+```swift
+Playbook.default.addScenarios(of: "Home") {
+    Scenario("SwiftUI View", layout: .fill) {
+        Text("Hello, macOS!")
+            .frame(width: 200, height: 100)
+    }
+
+    Scenario("NSView red", layout: .fixed(width: 100, height: 100)) {
+        let view = NSView()
+        view.wantsLayer = true
+        view.layer?.backgroundColor = NSColor.red.cgColor
         return view
     }
 }
@@ -129,9 +149,11 @@ To save snapshot images to the photo library from the share button on each UI, `
 
 ### PlaybookSnapshot
 
-Scenarios can be tested by the instance of types conform to `TestTool` protocol.  
-`Snapshot` is one of them, which can generate the snapshots of all scenarios with simulate the screen size and safe area of the given devices.  
-Since Playbook doesn't depend on XCTest, it doesn't necessarily need to be run on Unit-test.  
+**Note:** PlaybookSnapshot is currently iOS-only. macOS snapshot support is planned for a future release.
+
+Scenarios can be tested by the instance of types conform to `TestTool` protocol.
+`Snapshot` is one of them, which can generate the snapshots of all scenarios with simulate the screen size and safe area of the given devices.
+Since Playbook doesn't depend on XCTest, it doesn't necessarily need to be run on Unit-test.
 
 ```swift
 final class SnapshotTests: XCTestCase {
@@ -181,6 +203,7 @@ The generated snapshot images can be used for more advanced visual regression te
 - Swift 5.10
 - Xcode 15.4
 - iOS 13.0+ (PlaybookUI: iOS 15.0+)
+- macOS 11.0+ (PlaybookUI: macOS 12.0+) - New!
 
 ---
 

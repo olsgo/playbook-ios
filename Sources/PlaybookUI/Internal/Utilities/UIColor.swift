@@ -1,3 +1,4 @@
+#if os(iOS)
 import UIKit
 
 internal extension UIColor {
@@ -18,3 +19,25 @@ private extension UIColor {
         self.init(red: red, green: green, blue: blue, alpha: 1)
     }
 }
+#elseif os(macOS)
+import AppKit
+
+internal extension NSColor {
+    static let primaryBlue = NSColor(hex: 0x048DFF)
+    static let highlight = NSColor.systemYellow
+    static let translucentFill = NSColor.secondarySystemFill
+    static let background = NSColor { appearance in
+        appearance.name == .darkAqua ? .black : .white
+    }
+}
+
+private extension NSColor {
+    convenience init(hex: Int) {
+        let red = CGFloat((hex & 0xFF0000) >> 16) / 255
+        let green = CGFloat((hex & 0x00FF00) >> 8) / 255
+        let blue = CGFloat((hex & 0x0000FF) >> 0) / 255
+
+        self.init(red: red, green: green, blue: blue, alpha: 1)
+    }
+}
+#endif

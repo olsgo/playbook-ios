@@ -1,7 +1,11 @@
+#if os(iOS)
 import UIKit
+#elseif os(macOS)
+import AppKit
+#endif
 
 /// The view controller to layout scenario's content.
-open class ScenarioViewController: UIViewController {
+open class ScenarioViewController: PlatformViewController {
     /// The context of scenario that indicating environments.
     public let context: ScenarioContext
 
@@ -11,7 +15,7 @@ open class ScenarioViewController: UIViewController {
     }
 
     /// The view controller wrapping content of currently displayed scenario.
-    public private(set) var contentViewController: UIViewController? {
+    public private(set) var contentViewController: PlatformViewController? {
         didSet {
             guard let oldValue = oldValue else { return }
 
@@ -22,6 +26,7 @@ open class ScenarioViewController: UIViewController {
         }
     }
 
+    #if os(iOS)
     /// Specifies whether the status bar should be hidden.
     public var shouldStatusBarHidden = false
 
@@ -38,6 +43,7 @@ open class ScenarioViewController: UIViewController {
             super.endAppearanceTransition()
         }
     }
+    #endif
 
     /// Initialize a new scenario view controller with given context.
     ///
@@ -48,8 +54,13 @@ open class ScenarioViewController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
+        #if os(iOS)
         view.backgroundColor = .clear
         view.clipsToBounds = true
+        #elseif os(macOS)
+        view.wantsLayer = true
+        view.layer?.backgroundColor = NSColor.clear.cgColor
+        #endif
     }
 
     /// Initialize a new scenario view controller with given context.
@@ -144,7 +155,7 @@ private extension ScenarioViewController {
 }
 
 private extension NSLayoutConstraint {
-    func priority(_ priority: UILayoutPriority) -> NSLayoutConstraint {
+    func priority(_ priority: PlatformLayoutPriority) -> NSLayoutConstraint {
         self.priority = priority
         return self
     }

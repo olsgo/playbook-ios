@@ -1,4 +1,5 @@
-import UIKit
+import Foundation
+import CoreGraphics
 
 /// Represents how the component should be laid out.
 public struct ScenarioLayout: Equatable {
