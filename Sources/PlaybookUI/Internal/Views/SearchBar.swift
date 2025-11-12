@@ -51,7 +51,11 @@ internal struct SearchBar: View {
             .padding(.horizontal, 16)
             .background {
                 Rectangle()
-                    .fill(Color(white: 0.95).opacity(0.5))
+                    #if os(iOS)
+                    .fill(Color(uiColor: .tertiarySystemFill))
+                    #elseif os(macOS)
+                    .fill(Color(nsColor: .tertiarySystemFill))
+                    #endif
                     .clipShape(.capsule)
             }
 

@@ -27,11 +27,7 @@ public typealias PlatformEdgeInsets = NSEdgeInsets
 // Common extensions for platform-agnostic code
 extension PlatformColor {
     static var playbookClearBackground: PlatformColor {
-        #if os(iOS)
         return .clear
-        #else
-        return .clear
-        #endif
     }
 }
 
