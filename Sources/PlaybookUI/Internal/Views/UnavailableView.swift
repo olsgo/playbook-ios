@@ -10,7 +10,7 @@ internal struct UnavailableView: View {
             Image(symbol: symbol)
                 .imageStyle(
                     font: .largeTitle,
-                    color: Color(.secondaryLabel)
+                    color: Color.playbookSecondaryLabel
                 )
 
             Text(description)

@@ -1,6 +1,10 @@
 import SwiftUI
 
+#if os(iOS)
 @available(iOS 15.0, *)
+#elseif os(macOS)
+@available(macOS 12.0, *)
+#endif
 internal struct GalleryCategoryRow: View {
     let data: SearchedCategoryData
     let onSelect: (SearchedData) -> Void
@@ -8,10 +12,17 @@ internal struct GalleryCategoryRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 8) {
+                #if os(iOS)
                 Image(uiImage: .logoMark)
                     .resizable()
                     .scaledToFit()
                     .frame(height: 16)
+                #elseif os(macOS)
+                Image(nsImage: .logoMark)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 16)
+                #endif
 
                 HighlightText(
                     content: data.category.rawValue,

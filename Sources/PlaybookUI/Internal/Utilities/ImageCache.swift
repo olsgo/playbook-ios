@@ -65,7 +65,11 @@ private extension ImageCache {
             .appendingPathComponent("\(source.colorScheme)", isDirectory: true)
             .appendingPathComponent(normalize(source.category.rawValue), isDirectory: true)
             .appendingPathComponent(normalize(source.scenario.title.rawValue))
+            #if os(iOS)
             .appendingPathExtension(SnapshotSupport.ImageFormat.png.fileExtension)
+            #elseif os(macOS)
+            .appendingPathExtension("png")
+            #endif
     }
 
     func remove(at url: URL) {

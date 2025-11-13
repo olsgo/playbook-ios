@@ -70,9 +70,11 @@ internal struct CatalogSearchPane: View {
 
                         Spacer.fixed(length: 16)
                     }
+                    #if os(iOS)
                     .listRowSpacing(.zero)
-                    .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
+                    #endif
+                    .listRowInsets(EdgeInsets())
                     .listRowBackground(Color.clear)
                 }
                 .listStyle(.plain)

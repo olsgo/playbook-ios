@@ -49,9 +49,11 @@ internal struct PlaybookGalleryContent: View {
 
                     Spacer.fixed(length: 24)
                 }
+                #if os(iOS)
                 .listRowSpacing(.zero)
-                .listRowInsets(EdgeInsets())
                 .listRowSeparator(.hidden)
+                #endif
+                .listRowInsets(EdgeInsets())
                 .listRowBackground(Color.clear)
                 .transition(.identity)
             }
@@ -67,6 +69,7 @@ internal struct PlaybookGalleryContent: View {
                 GalleryDetail(data: data)
             }
             .toolbar {
+                #if os(iOS)
                 ToolbarItem(placement: .topBarTrailing) {
                     HStack {
                         Menu {
@@ -81,9 +84,27 @@ internal struct PlaybookGalleryContent: View {
                         ColorSchemePicker(colorScheme: $galleryState.colorScheme)
                     }
                 }
+                #elseif os(macOS)
+                ToolbarItem(placement: .automatic) {
+                    HStack {
+                        Menu {
+                            Button("Clear Thumbnail Cache") {
+                                galleryState.clearImageCache()
+                            }
+                        } label: {
+                            Image(symbol: .ellipsisCircle)
+                                .imageStyle(font: .subheadline)
+                        }
+
+                        ColorSchemePicker(colorScheme: $galleryState.colorScheme)
+                    }
+                }
+                #endif
             }
         }
+        #if os(iOS)
         .navigationViewStyle(.stack)
+        #endif
         .preferredColorScheme(galleryState.colorScheme)
     }
 }

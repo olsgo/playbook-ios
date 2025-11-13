@@ -1,6 +1,11 @@
+import Playbook
 import SwiftUI
 
+#if os(iOS)
 @available(iOS 15.0, *)
+#elseif os(macOS)
+@available(macOS 12.0, *)
+#endif
 internal struct CatalogTop: View {
     @EnvironmentObject
     private var catalogState: CatalogState
@@ -12,7 +17,7 @@ internal struct CatalogTop: View {
             if let selected = catalogState.selected {
                 ScenarioContentView(
                     scenario: selected.scenario,
-                    additionalSafeAreaInsets: UIEdgeInsets(
+                    additionalSafeAreaInsets: PlatformEdgeInsets(
                         top: .zero,
                         left: .zero,
                         bottom: 56,

@@ -1,3 +1,4 @@
+#if os(iOS)
 import UIKit
 
 /// A namespace for the methods supporting to generate snapshot from scenarios.
@@ -205,3 +206,4 @@ private extension UIGraphicsImageRenderer {
         }
     }
 }
+#endif

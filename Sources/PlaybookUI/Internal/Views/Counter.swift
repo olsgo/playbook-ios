@@ -12,7 +12,7 @@ internal struct Counter: View {
             Text("\(count) / \(total)")
                 .textStyle(
                     font: .caption.monospacedDigit(),
-                    color: Color(.secondaryLabel)
+                    color: Color.playbookSecondaryLabel
                 )
         }
         .padding(.horizontal, 24)

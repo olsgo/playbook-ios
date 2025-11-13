@@ -1,3 +1,4 @@
+#if os(iOS)
 import UIKit
 
 /// The device representation for simulating environments of each device such as
@@ -959,3 +960,4 @@ private extension SnapshotDevice.Orientation {
         }
     }
 }
+#endif

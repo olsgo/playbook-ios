@@ -1,3 +1,4 @@
+#if os(iOS)
 import Playbook
 import UIKit
 
@@ -175,3 +176,4 @@ private extension String {
         unicodeScalars.reduce(into: "") { $0 += $1.escaped(asASCII: true) }
     }
 }
+#endif

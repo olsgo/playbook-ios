@@ -1,3 +1,4 @@
+#if os(iOS)
 import UIKit
 
 internal final class SnapshotWindow: UIWindow {
@@ -145,3 +146,4 @@ private extension UIEdgeInsets {
         )
     }
 }
+#endif

@@ -1,6 +1,10 @@
 import SwiftUI
 
+#if os(iOS)
 @available(iOS 15, *)
+#elseif os(macOS)
+@available(macOS 12.0, *)
+#endif
 internal struct HighlightText: View {
     let content: String
     let range: Range<String.Index>?
@@ -22,7 +26,7 @@ private extension HighlightText {
         let nsRange = NSRange(range, in: content)
 
         if let attributedRange = Range<AttributedString.Index>(nsRange, in: attributed) {
-            attributed[attributedRange].foregroundColor = .init(uiColor: .highlight)
+            attributed[attributedRange].foregroundColor = Color.playbookHighlight
         }
 
         return attributed

@@ -1,6 +1,10 @@
 import SwiftUI
 
+#if os(iOS)
 @available(iOS 15, *)
+#elseif os(macOS)
+@available(macOS 12.0, *)
+#endif
 internal struct CatalogCategoryRow: View {
     let data: SearchedCategoryData
     let isExpanded: Bool
@@ -10,10 +14,17 @@ internal struct CatalogCategoryRow: View {
         Button(action: onSelect) {
             VStack(spacing: 0) {
                 HStack(spacing: 0) {
+                    #if os(iOS)
                     Image(uiImage: .logoMark)
                         .resizable()
                         .scaledToFit()
                         .frame(height: 16)
+                    #elseif os(macOS)
+                    Image(nsImage: .logoMark)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 16)
+                    #endif
 
                     Spacer.fixed(length: 8)
 
@@ -28,7 +39,7 @@ internal struct CatalogCategoryRow: View {
                     Image(symbol: .chevronRight)
                         .imageStyle(
                             font: .caption,
-                            color: Color(.secondaryLabel)
+                            color: Color.playbookSecondaryLabel
                         )
                         .rotationEffect(.radians(isExpanded ? .pi / 2 : 0))
                 }

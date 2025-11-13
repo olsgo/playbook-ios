@@ -7,9 +7,9 @@ internal final class ImageLoader: ObservableObject {
     private var queue = ContiguousArray<QueueItem>()
     private var sequentiallyProcessedCount = 0
 
-    func loadImage(for source: ImageSource) async -> UIImage? {
+    func loadImage(for source: ImageSource) async -> PlatformImage? {
         if let data = imageCache.data(for: source) {
-            return UIImage(data: data)
+            return PlatformImage(data: data)
         }
         else {
             let item = QueueItem(source: source)
@@ -35,7 +35,7 @@ internal final class ImageLoader: ObservableObject {
 private extension ImageLoader {
     final class QueueItem {
         let source: ImageSource
-        var continuation: CheckedContinuation<UIImage?, Never>?
+        var continuation: CheckedContinuation<PlatformImage?, Never>?
         var isCancelled = false
 
         init(source: ImageSource) {
@@ -64,6 +64,7 @@ private extension ImageLoader {
                 return startNext()
             }
 
+            #if os(iOS)
             SnapshotSupport.data(
                 for: item.source.scenario,
                 on: SnapshotDevice(
@@ -93,6 +94,13 @@ private extension ImageLoader {
                 imageCache.create(file: data, for: item.source)
                 startNext()
             }
+            #elseif os(macOS)
+            // macOS: Snapshot generation not yet implemented
+            // Return nil image and continue
+            item.continuation?.resume(returning: nil)
+            item.continuation = nil
+            startNext()
+            #endif
         }
     }
 
@@ -119,6 +127,7 @@ private extension ImageLoader {
     }
 }
 
+#if os(iOS)
 private extension ColorScheme {
     var userInterfaceStyle: UIUserInterfaceStyle {
         switch self {
@@ -133,3 +142,4 @@ private extension ColorScheme {
         }
     }
 }
+#endif

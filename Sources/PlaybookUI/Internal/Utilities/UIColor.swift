@@ -25,10 +25,22 @@ import AppKit
 internal extension NSColor {
     static let primaryBlue = NSColor(hex: 0x048DFF)
     static let highlight = NSColor.systemYellow
-    static let translucentFill = NSColor.secondarySystemFill
-    static let background = NSColor { appearance in
-        appearance.name == .darkAqua ? .black : .white
-    }
+    static let translucentFill: NSColor = {
+        if #available(macOS 14.0, *) {
+            return .secondarySystemFill
+        } else {
+            return NSColor.controlBackgroundColor.withAlphaComponent(0.5)
+        }
+    }()
+    static let background: NSColor = {
+        if #available(macOS 10.14, *) {
+            return NSColor(name: nil, dynamicProvider: { appearance in
+                appearance.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua ? .black : .white
+            })
+        } else {
+            return .white
+        }
+    }()
 }
 
 private extension NSColor {

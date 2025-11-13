@@ -54,7 +54,13 @@ internal struct SearchBar: View {
                     #if os(iOS)
                     .fill(Color(uiColor: .tertiarySystemFill))
                     #elseif os(macOS)
-                    .fill(Color(nsColor: .tertiarySystemFill))
+                    .fill(Color(nsColor: {
+                        if #available(macOS 14.0, *) {
+                            return .tertiarySystemFill
+                        } else {
+                            return NSColor.controlBackgroundColor.withAlphaComponent(0.3)
+                        }
+                    }()))
                     #endif
                     .clipShape(.capsule)
             }

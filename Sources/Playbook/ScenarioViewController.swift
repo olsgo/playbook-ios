@@ -19,10 +19,14 @@ open class ScenarioViewController: PlatformViewController {
         didSet {
             guard let oldValue = oldValue else { return }
 
+            #if os(iOS)
             oldValue.willMove(toParent: nil)
+            #endif
             oldValue.view.removeFromSuperview()
             oldValue.removeFromParent()
+            #if os(iOS)
             oldValue.didMove(toParent: nil)
+            #endif
         }
     }
 
@@ -95,7 +99,9 @@ private extension ScenarioViewController {
         let contentViewController = scenario.content(context)
         self.contentViewController = contentViewController
 
+        #if os(iOS)
         contentViewController.willMove(toParent: self)
+        #endif
         contentViewController.view.translatesAutoresizingMaskIntoConstraints = false
         addChild(contentViewController)
         view.addSubview(contentViewController.view)
@@ -150,7 +156,9 @@ private extension ScenarioViewController {
         }
 
         NSLayoutConstraint.activate(horizontalConstraints + verticalConstraints)
+        #if os(iOS)
         contentViewController.didMove(toParent: self)
+        #endif
     }
 }
 

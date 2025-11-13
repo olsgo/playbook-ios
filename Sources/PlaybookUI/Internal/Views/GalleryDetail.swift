@@ -1,6 +1,11 @@
+import Playbook
 import SwiftUI
 
+#if os(iOS)
 @available(iOS 15.0, *)
+#elseif os(macOS)
+@available(macOS 12.0, *)
+#endif
 internal struct GalleryDetail: View {
     let data: SelectData
 
@@ -11,7 +16,7 @@ internal struct GalleryDetail: View {
         ZStack {
             ScenarioContentView(
                 scenario: data.scenario,
-                additionalSafeAreaInsets: UIEdgeInsets(
+                additionalSafeAreaInsets: PlatformEdgeInsets(
                     top: 56,
                     left: .zero,
                     bottom: .zero,

@@ -52,7 +52,7 @@ private struct CloseButton: View {
                 Image(symbol: .xmark)
                     .imageStyle(
                         font: .subheadline.weight(.bold),
-                        color: Color(.secondaryLabel)
+                        color: Color.playbookSecondaryLabel
                     )
             }
         }

@@ -6,7 +6,7 @@ let package = Package(
     name: "Playbook",
     platforms: [
         .iOS(.v13),
-        .macOS(.v11)
+        .macOS(.v12)
     ],
     products: [
         .library(name: "Playbook", targets: ["Playbook"]),
@@ -19,7 +19,10 @@ let package = Package(
         ),
         .target(
             name: "PlaybookSnapshot",
-            dependencies: ["Playbook"]
+            dependencies: ["Playbook"],
+            // Snapshot support is iOS-only due to device simulation requirements
+            // (UITraitCollection, safe area variants, device-specific configurations)
+            exclude: []
         ),
         .target(
             name: "PlaybookUI",
